@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Development Streak</title>
+        <link rel="stylesheet" href="Style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to your to do list the perfect way to keep going</h1>
+        </header>
+        <div class="container">
+            <aside class="sidebar">
+                <h3>Categories</h3>
+                <div class="sidebar-item active" data-section="tasks">Tasks</div>
+                <div class="sidebar-item" data-section="completed">Completed</div>
+                <div class="sidebar-item" data-section="in-progress">In Progress</div>
+                <div class="sidebar-item" data-section="overdue">Overdue</div>
+            </aside>
+
+            <main>
+                <p>Add Tasks</p>
+                <form id="task-form" method="post">
+                    <input type="text" id="task-input" placeholder="Enter a task" required>
+                    <input type="date" id="due-date" required>
+                    <button type="submit">Add Task</button>
+                </form>
+                <form id="search-form" method="get">
+                    <input type="text" id="search-input" placeholder="Search tasks">
+                    <button type="submit">Search</button>
+                </form>
+                <div id="task-list"></div>
+            </main>
+        </div>
+    </body>
+
+</html>
