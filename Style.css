@@ -63,7 +63,41 @@ main button:hover{
     background-color: #0dfb00;
     color: rgb(0, 0, 0);
 }
-div #tasklist{
-    list-style-type: square;
-    padding: 10px;
+#tasklist{
+    display: flex;
+    flex-direction: row;
+    
+}
+.task-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 10px;
+}
+
+.task-title {
+    width: 250px;
+    margin: 0;
+}
+
+.task-date {
+    width: 150px;
+    margin: 0;
+}
+
+.task-row button {
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.task-row button:first-of-type {
+    margin-left: auto;
+}
+
+.task-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #ddd;
 }

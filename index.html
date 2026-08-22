@@ -21,18 +21,21 @@
 
             <main>
                 <p>Add Tasks</p>
-                <form id="task-form" method="post">
+                <form id="task-form" >
                     <input type="text" id="task-input" placeholder="Enter a task" required>
                     <input type="date" id="due-date" required>
-                    <button type="submit">Add Task</button>
+                    <button  type="button" id="addButton">Add Task</button>
                 </form>
-                <form id="search-form" method="get">
+                <form id="search-form" >
                     <input type="text" id="search-input" placeholder="Search tasks">
-                    <button type="submit">Search</button>
+                    <button type="button" id="searchButton">Search</button>
                 </form>
-                <div id="task-list"></div>
+                <div id="task-list">
+                    
+                </div>
             </main>
         </div>
+        <script src="logic.js"></script>
     </body>
 
 </html>
