@@ -7,9 +7,6 @@
         <link rel="stylesheet" href="Style.css">
     </head>
     <body>
-        <header>
-            <h1>Welcome to your to do list the perfect way to keep going</h1>
-        </header>
         <div class="container">
             <aside class="sidebar">
                 <h3>Categories</h3>
@@ -20,8 +17,9 @@
             </aside>
 
             <main>
-                <p>Add Tasks</p>
+                <header id="catogerie"></header>
                 <form id="task-form" >
+                    <p>Add Tasks</p>
                     <input type="text" id="task-input" placeholder="Enter a task" required>
                     <input type="date" id="due-date" required>
                     <button  type="button" id="addButton">Add Task</button>
@@ -31,7 +29,6 @@
                     <button type="button" id="searchButton">Search</button>
                 </form>
                 <div id="task-list">
-                    
                 </div>
             </main>
         </div>

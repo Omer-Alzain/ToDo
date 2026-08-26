@@ -21,18 +21,13 @@ function addTask(title, dueDate) {
     document.getElementById("due-date").value = "";
 }
 function deleteTask(id) {
-    const index = tasks.findIndex(task => task.id === id);
-    if (index !== -1) {
-        tasks.splice(index, 1);
-        renderCurrentSection();
-    }
     tasks = tasks.filter(task => task.id !== id);
     localStorage.setItem("tasks", JSON.stringify(tasks));
-    console.log(`Task with ID ${id} deleted.`);
+    renderCurrentSection();
 }
 function getTasksStatus(tasks) {
     const completedTasks = tasks.filter(task => task.completed);
-    const inProgressTasks = tasks.filter(task => !task.completed);
+    const inProgressTasks = tasks.filter(task => !task.completed && new Date(task.dueDate) >= new Date());
     const overdueTasks = tasks.filter(task => new Date(task.dueDate) < new Date() && !task.completed);
     return { completedTasks, inProgressTasks, overdueTasks };
 }
@@ -40,8 +35,13 @@ function renderTasks(tasksToRender, noDataMessage = "No tasks available.") {
     const taskList = document.getElementById("task-list");
 
     taskList.innerHTML = "";
+    taskList.innerHTML = `<div id="task-list-header">
+    <h2>Task List</h2>
+    <p>Total Tasks: ${tasksToRender.length}</p>
+    <p>Actions</p>
+    </div>`;
      if (!tasksToRender || tasksToRender.length === 0) {
-        document.getElementById("task-list").innerHTML = `<p>${noDataMessage}</p>`;
+        taskList.innerHTML = `<p id="no-tasks-message">${noDataMessage}</p>`;
         return;
     }
 
@@ -83,18 +83,20 @@ function renderTasks(tasksToRender, noDataMessage = "No tasks available.") {
 
 
 function renderCurrentSection() {
-            if(currentSection === "tasks"){
-                renderTasks(tasks);
-            }else if(currentSection === "completed"){
-                const { completedTasks } = getTasksStatus(tasks);
-                renderTasks(completedTasks);
-            }else if(currentSection === "in-progress"){
-                const { inProgressTasks } = getTasksStatus(tasks);
-                renderTasks(inProgressTasks);
-            }else if(currentSection === "overdue"){
-                const { overdueTasks } = getTasksStatus(tasks);
-                renderTasks(overdueTasks);
-            }
+    const catogerieHeader = document.getElementById("catogerie");
+    catogerieHeader.textContent = currentSection.charAt(0).toUpperCase() + currentSection.slice(1);
+    if(currentSection === "tasks"){
+        renderTasks(tasks);
+    }else if(currentSection === "completed"){
+        const { completedTasks } = getTasksStatus(tasks);
+        renderTasks(completedTasks);
+    }else if(currentSection === "in-progress"){
+        const { inProgressTasks } = getTasksStatus(tasks);
+        renderTasks(inProgressTasks);
+    }else if(currentSection === "overdue"){
+        const { overdueTasks } = getTasksStatus(tasks);
+        renderTasks(overdueTasks);
+    }
 }
 
 const tasksSideBar = document.querySelectorAll(".sidebar-item");

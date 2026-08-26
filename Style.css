@@ -2,13 +2,10 @@ body{
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-}
-header{
-    background-color: #e2f1d7a2;
-    padding: 20px;
-    text-align: center;
+    background-color: #0B3D2E;
 }
 .container{
+    margin-top:0.2em;
     display: flex;
     min-height: 100vh;
 }
@@ -40,10 +37,57 @@ main{
     display: flex;
     flex-direction: column;
 }
-#taskform{
+main #catogerie{
+    width: 20%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
     margin-bottom: 20px;
-    flex-direction: column;
+    border-radius: 10px;
+    background-color: #ffffffe2;
+    margin-right:auto;
+}
+main #task-form{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 40px;
+    flex-direction: row;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fffffff5;
+}
+main #task-form p{
+    grid-column: 1 / -1;
+}
+main #task-form input{
+    width: 100%;
+}
+main #task-form input[type="date"]{
+    width: 70%;
+    margin-left: 20px;
+}
+main #task-form button{
+    margin-left: auto;
+}
+main #search-form{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-direction: row;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #fffffff5;
+}
+main #search-form input{
+    width: 100%;
+}
+main #search-form button{
+    width: 50%;
+    margin-left: auto;
 }
 main input{
     flex: 1;
@@ -51,22 +95,39 @@ main input{
     margin-bottom: 10px;
     border-radius: 5px;
     border: 1px solid #524747;
+    background-color: #fffffff5;
 }
 main button{
     padding: 10px 20px;
-    background-color: #e0dcdae3;
+    background-color: #0b3d2e1e;
     color: rgb(0, 0, 0);
     border-radius: 10px;
     cursor: pointer;
 }
 main button:hover{
-    background-color: #0dfb00;
+    background-color: #FFBE00;
     color: rgb(0, 0, 0);
 }
-#tasklist{
-    display: flex;
-    flex-direction: row;
+#task-list{
+    background-color: #f1ececef;
+    border: 1px solid #524747;
     
+}
+#task-list #no-tasks-message{
+    background-color: #0b3d2eae;
+    padding: 10px;
+    margin: 0;
+}
+#task-list-header{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: #ffffffe2;
+}
+#task-list-header > :nth-child(3){
+    margin-left: auto;
 }
 .task-row {
     display: flex;
