@@ -43,40 +43,6 @@ function editTask(id) {
     editDate.value = task.dueDate;
 
     editCard.classList.remove("hidden");
-
-    saveEditButton.addEventListener("click", () => {
-
-        const task = tasks.find(task => task.id === editingTaskId);
-
-        if (!task) {
-            return;
-        }
-
-        const newTitle = editTitle.value.trim();
-        const newDueDate = editDate.value;
-
-        if (!newTitle || !newDueDate) {
-            alert("Please enter a task title and due date.");
-            return;
-        }
-
-        task.title = newTitle;
-        task.dueDate = newDueDate;
-
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-
-        editCard.classList.add("hidden");
-
-        editingTaskId = null;
-
-        renderCurrentSection();
-    });
-    cancelEditButton.addEventListener("click", () => {
-
-        editCard.classList.add("hidden");
-
-        editingTaskId = null;
-    });
 }
 function deleteTask(id) {
     tasks = tasks.filter(task => task.id !== id);
@@ -126,6 +92,9 @@ function renderTasks(tasksToRender, noDataMessage = "No tasks available.") {
         const completeCheckbox = document.createElement("input");
         completeCheckbox.type = "checkbox";
         completeCheckbox.checked = task.completed;
+        if(task.completed){
+            taskElement.classList.add("completed")
+        }
         completeCheckbox.addEventListener("click", () => toggleTaskCompletion(task.id));
 
         taskElement.appendChild(titleElement);
@@ -206,3 +175,25 @@ document.getElementById("search-input").addEventListener("input", (event) => {
     searchTasks(query);
 });
 
+saveEditButton.addEventListener("click", () => {
+    const task = tasks.find(task => task.id === editingTaskId);
+    if (!task) {
+        return;
+    }
+    const newTitle = editTitle.value.trim();
+    const newDueDate = editDate.value;
+    if (!newTitle || !newDueDate) {
+        alert("Please enter a task title and due date.");
+        return;
+    }
+    task.title = newTitle;
+    task.dueDate = newDueDate;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    editCard.classList.add("hidden");
+    editingTaskId = null;
+    renderCurrentSection();
+});
+cancelEditButton.addEventListener("click", () => {
+    editCard.classList.add("hidden");
+    editingTaskId = null;
+});
