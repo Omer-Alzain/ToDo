@@ -26,11 +26,25 @@
                 </form>
                 <form id="search-form" >
                     <input type="text" id="search-input" placeholder="Search tasks">
-                    <button type="button" id="searchButton">Search</button>
                 </form>
                 <div id="task-list">
                 </div>
             </main>
+            <div id="edit-card" class="edit-card hidden">
+
+                <h2>Edit Task</h2>
+
+                <label for="edit-title">Task title</label>
+                <input type="text" id="edit-title">
+
+                <label for="edit-date">Due date</label>
+                <input type="date" id="edit-date">
+
+                <div class="edit-actions">
+                    <button id="cancel-edit">Cancel</button>
+                    <button id="save-edit">Save Changes</button>
+            </div>
+
         </div>
         <script src="logic.js"></script>
     </body>

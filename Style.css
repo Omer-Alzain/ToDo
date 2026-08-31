@@ -162,3 +162,37 @@ main button:hover{
     padding: 15px 10px;
     border-bottom: 1px solid #ddd;
 }
+
+.edit-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 350px;
+    padding: 25px;
+
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+
+    z-index: 1000;
+}
+
+.edit-card.hidden {
+    display: none;
+}
+
+.edit-card input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 8px 0 15px;
+    padding: 10px;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}

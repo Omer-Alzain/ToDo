@@ -1,5 +1,14 @@
 let tasks =JSON.parse(localStorage.getItem("tasks")) || [];
 let currentSection = "tasks";
+let editingTaskId = null;
+const editCard = document.getElementById("edit-card");
+const editTitle = document.getElementById("edit-title");
+const editDate = document.getElementById("edit-date");
+
+const saveEditButton = document.getElementById("save-edit");
+const cancelEditButton = document.getElementById("cancel-edit");
+
+
 
 renderCurrentSection();
 document.getElementById("addButton").addEventListener("click", () => addTask(document.getElementById("task-input").value, document.getElementById("due-date").value));
@@ -21,19 +30,53 @@ function addTask(title, dueDate) {
     document.getElementById("due-date").value = "";
 }
 function editTask(id) {
+
     const task = tasks.find(task => task.id === id);
-    if (task) {
-        const newTitle = prompt("Edit Task Title:", task.title);
-        const newDueDate = prompt("Edit Due Date (YYYY-MM-DD):", task.dueDate);
-        if (newTitle && newDueDate) {
-            task.title = newTitle;
-            task.dueDate = newDueDate;
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-            renderCurrentSection();
-        } else {
-            alert("Task title and due date cannot be empty.");
-        }
+
+    if (!task) {
+        return;
     }
+
+    editingTaskId = id;
+
+    editTitle.value = task.title;
+    editDate.value = task.dueDate;
+
+    editCard.classList.remove("hidden");
+
+    saveEditButton.addEventListener("click", () => {
+
+        const task = tasks.find(task => task.id === editingTaskId);
+
+        if (!task) {
+            return;
+        }
+
+        const newTitle = editTitle.value.trim();
+        const newDueDate = editDate.value;
+
+        if (!newTitle || !newDueDate) {
+            alert("Please enter a task title and due date.");
+            return;
+        }
+
+        task.title = newTitle;
+        task.dueDate = newDueDate;
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        editCard.classList.add("hidden");
+
+        editingTaskId = null;
+
+        renderCurrentSection();
+    });
+    cancelEditButton.addEventListener("click", () => {
+
+        editCard.classList.add("hidden");
+
+        editingTaskId = null;
+    });
 }
 function deleteTask(id) {
     tasks = tasks.filter(task => task.id !== id);
@@ -96,22 +139,34 @@ function renderTasks(tasksToRender, noDataMessage = "No tasks available.") {
     });
 }
 
+function getCurrentSectionTasks() {
 
-function renderCurrentSection() {
+    if (currentSection === "tasks") {
+        return tasks;
+    }
+
+    const { completedTasks, inProgressTasks, overdueTasks } =
+        getTasksStatus(tasks);
+
+    if (currentSection === "completed") {
+        return completedTasks;
+    }
+
+    if (currentSection === "in-progress") {
+        return inProgressTasks;
+    }
+
+    if (currentSection === "overdue") {
+        return overdueTasks;
+    }
+
+    return [];
+}
+
+function renderCurrentSection(tasksToRender = getCurrentSectionTasks()) {
     const catogerieHeader = document.getElementById("catogerie");
     catogerieHeader.textContent = currentSection.charAt(0).toUpperCase() + currentSection.slice(1);
-    if(currentSection === "tasks"){
-        renderTasks(tasks);
-    }else if(currentSection === "completed"){
-        const { completedTasks } = getTasksStatus(tasks);
-        renderTasks(completedTasks);
-    }else if(currentSection === "in-progress"){
-        const { inProgressTasks } = getTasksStatus(tasks);
-        renderTasks(inProgressTasks);
-    }else if(currentSection === "overdue"){
-        const { overdueTasks } = getTasksStatus(tasks);
-        renderTasks(overdueTasks);
-    }
+    renderTasks(tasksToRender, "No tasks available in this section.");
 }
 
 const tasksSideBar = document.querySelectorAll(".sidebar-item");
@@ -123,27 +178,20 @@ function tasksTypeSwicth(tasksContainer){
                 item.classList.remove("active")});
                 item.classList.add("active");
                 currentSection = item.dataset.section;
+                document.getElementById("search-input").value = "";
                 renderCurrentSection();
         });
     });
 }
 
+
 function searchTasks(query) {
-    const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(query.toLowerCase()));
-    renderTasks(filteredTasks, "No Match.");
+    const currentTasks = getCurrentSectionTasks();
+    const filteredTasks = currentTasks.filter(task => task.title.toLowerCase().includes(query.toLowerCase()));
+    renderTasks(filteredTasks, "No tasks found !");
 }
-function clickedSearchTasks(query) {
-    const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(query.toLowerCase()));
-    renderTasks(filteredTasks, "No Tasks Found.");
-}
-document.getElementById("search-input").addEventListener("input", (event) => {
-    const query = event.target.value;
-    searchTasks(query);
-});
-document.getElementById("searchButton").addEventListener("click", (event) => {
-    const query = document.getElementById("search-input").value;
-    clickedSearchTasks(query);
-});
+
+
 function toggleTaskCompletion(id) {
     const task = tasks.find(task => task.id === id);
     if (task) {
@@ -152,3 +200,9 @@ function toggleTaskCompletion(id) {
         renderCurrentSection();
     }
 }
+
+document.getElementById("search-input").addEventListener("input", (event) => {
+    const query = event.target.value;
+    searchTasks(query);
+});
+
