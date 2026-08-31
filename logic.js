@@ -20,6 +20,21 @@ function addTask(title, dueDate) {
     document.getElementById("task-input").value = "";
     document.getElementById("due-date").value = "";
 }
+function editTask(id) {
+    const task = tasks.find(task => task.id === id);
+    if (task) {
+        const newTitle = prompt("Edit Task Title:", task.title);
+        const newDueDate = prompt("Edit Due Date (YYYY-MM-DD):", task.dueDate);
+        if (newTitle && newDueDate) {
+            task.title = newTitle;
+            task.dueDate = newDueDate;
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            renderCurrentSection();
+        } else {
+            alert("Task title and due date cannot be empty.");
+        }
+    }
+}
 function deleteTask(id) {
     tasks = tasks.filter(task => task.id !== id);
     localStorage.setItem("tasks", JSON.stringify(tasks));
